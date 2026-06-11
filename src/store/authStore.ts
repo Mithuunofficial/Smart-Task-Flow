@@ -28,18 +28,18 @@ export interface AuthSlice {
 
 export const createAuthSlice: StateCreator<any, [], [], AuthSlice> = (set, get) => ({
   user: {
-    name: 'Alex Johnson',
-    email: 'alex@email.com',
-    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
-    role: 'Lead Architect',
+    name: '',
+    email: '',
+    avatar: '',
+    role: '',
     theme: 'dark',
-    notificationsEnabled: true,
+    notificationsEnabled: false,
     marketingEmails: false,
     language: 'English',
-    timezone: 'UTC-5 (EST)',
-    efficiencyIndex: 94,
-    focusScore: 88,
-    completionRate: 85
+    timezone: 'UTC',
+    efficiencyIndex: 0,
+    focusScore: 0,
+    completionRate: 0
   },
   isAuthenticated: false,
 
@@ -110,18 +110,18 @@ export const createAuthSlice: StateCreator<any, [], [], AuthSlice> = (set, get) 
           tasks: [],
           teamMembers: [],
           user: {
-            name: 'Alex Johnson',
-            email: 'alex@email.com',
-            avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
-            role: 'Lead Architect',
+            name: '',
+            email: '',
+            avatar: '',
+            role: '',
             theme: 'dark',
-            notificationsEnabled: true,
+            notificationsEnabled: false,
             marketingEmails: false,
             language: 'English',
-            timezone: 'UTC-5 (EST)',
-            efficiencyIndex: 94,
-            focusScore: 88,
-            completionRate: 85
+            timezone: 'UTC',
+            efficiencyIndex: 0,
+            focusScore: 0,
+            completionRate: 0
           }
         });
       }
@@ -133,25 +133,7 @@ export const createAuthSlice: StateCreator<any, [], [], AuthSlice> = (set, get) 
     if (!password) return { error: new Error('Password is required') };
 
     if (!isSupabaseConfigured) {
-      set({ 
-        isAuthenticated: true,
-        user: {
-          name: email.split('@')[0].toUpperCase(),
-          email: email,
-          avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
-          role: 'Team Member',
-          theme: 'dark',
-          notificationsEnabled: true,
-          marketingEmails: false,
-          language: 'English',
-          timezone: 'UTC-5 (EST)',
-          efficiencyIndex: 94,
-          focusScore: 88,
-          completionRate: 85
-        }
-      });
-      localStorage.setItem('smart_task_simulated_auth', 'true');
-      return { error: null };
+      return { error: new Error('Supabase configuration parameters are missing. Please configure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your deployment environment variables.') };
     }
 
     try {
@@ -172,25 +154,7 @@ export const createAuthSlice: StateCreator<any, [], [], AuthSlice> = (set, get) 
 
   signUp: async (email, password, name) => {
     if (!isSupabaseConfigured) {
-      set({ 
-        isAuthenticated: true,
-        user: {
-          name: name,
-          email: email,
-          avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
-          role: 'Team Member',
-          theme: 'dark',
-          notificationsEnabled: true,
-          marketingEmails: false,
-          language: 'English',
-          timezone: 'UTC-5 (EST)',
-          efficiencyIndex: 94,
-          focusScore: 88,
-          completionRate: 85
-        }
-      });
-      localStorage.setItem('smart_task_simulated_auth', 'true');
-      return { error: null };
+      return { error: new Error('Supabase configuration parameters are missing. Please configure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your deployment environment variables.') };
     }
 
     try {
