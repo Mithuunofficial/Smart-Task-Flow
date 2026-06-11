@@ -1,0 +1,60 @@
+/* Glowing Border Animation */
+@keyframes border-glow {
+  0%, 100% {
+    border-color: rgba(124, 58, 237, 0.2);
+    box-shadow: 0 0 15px rgba(124, 58, 237, 0.1);
+  }
+  50% {
+    border-color: rgba(37, 99, 235, 0.4);
+    box-shadow: 0 0 25px rgba(37, 99, 235, 0.2);
+  }
+}
+
+.animated-glow-border {
+  animation: border-glow 8s infinite alternate ease-in-out;
+}
+
+/* Float Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Pulse Slow */
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 10s ease-in-out infinite;
+}
+
+/* Flow Line Animation */
+@keyframes flow-line {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-flow-line {
+  stroke-dasharray: 8;
+  animation: flow-line 20s linear infinite;
+}
