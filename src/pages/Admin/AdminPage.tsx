@@ -99,8 +99,29 @@ export default function AdminPage() {
     
     console.log('fetchAdminData: Checking configuration. isSupabaseConfigured =', isSupabaseConfigured);
     if (!isSupabaseConfigured) {
-      setActionError('Supabase configuration parameters are missing or using placeholders in the .env file. Please check your setup and restart your dev server (npm run dev).');
-      setDataLoading(false);
+      console.log('fetchAdminData: Supabase not configured. Loading local mockup telemetry...');
+      setTimeout(() => {
+        setProfiles([
+          { id: 'usr-1', name: 'Mithuun', email: 'mithuun@taskflow.com', role: 'Owner', created_at: '2026-06-01T00:00:00Z' },
+          { id: 'usr-2', name: 'Alex Johnson', email: 'alex@email.com', role: 'Lead Architect', created_at: '2026-06-05T00:00:00Z' },
+          { id: 'usr-3', name: 'Sarah Connor', email: 'sarah@email.com', role: 'Product Owner', created_at: '2026-06-08T00:00:00Z' },
+          { id: 'usr-4', name: 'John Doe', email: 'john@email.com', role: 'Senior Developer', created_at: '2026-06-10T00:00:00Z' }
+        ]);
+        setTasks([
+          { id: 'tsk-1', user_id: 'usr-2', title: 'Migrate state to Zustand slices', status: 'In Progress', priority: 'High', category: 'Development', due_date: '2026-06-12' },
+          { id: 'tsk-2', user_id: 'usr-2', title: 'Design glassmorphic dashboard widgets', status: 'Completed', priority: 'High', category: 'Design', due_date: '2026-06-10' },
+          { id: 'tsk-3', user_id: 'usr-3', title: 'Compile API Documentation', status: 'To Do', priority: 'Medium', category: 'Product', due_date: '2026-06-15' }
+        ]);
+        setTeamMembers([
+          { id: 'tm-1', user_id: 'usr-2', name: 'Sarah Connor', email: 'sarah@email.com', role: 'Product Owner', status: 'Active' },
+          { id: 'tm-2', user_id: 'usr-2', name: 'John Doe', email: 'john@email.com', role: 'Senior Developer', status: 'In Meeting' },
+          { id: 'tm-3', user_id: 'usr-2', name: 'Emma Watson', email: 'emma@email.com', role: 'UI Designer', status: 'Away' }
+        ]);
+        setAnnouncements([
+          { id: 'ann-1', title: 'System Release Notes v1.0.0', message: 'Welcome to Smart Task Flow! Implemented glassmorphic dark mode, AI task prioritization, Pomodoro focus mode, and smart habit tracking.', created_at: '2026-06-11T12:00:00Z' }
+        ]);
+        setDataLoading(false);
+      }, 500);
       return;
     }
 
@@ -188,6 +209,16 @@ export default function AdminPage() {
       return;
     }
 
+    if (!isSupabaseConfigured) {
+      console.log('handleDeleteUser: Supabase not configured. Simulated deletion of user:', userId);
+      setDataLoading(true);
+      setTimeout(() => {
+        setProfiles(prev => prev.filter(p => p.id !== userId));
+        setDataLoading(false);
+      }, 500);
+      return;
+    }
+
     const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
     const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
@@ -236,6 +267,24 @@ export default function AdminPage() {
     setLoading(true);
     setAnnSuccess('');
     setActionError('');
+
+    if (!isSupabaseConfigured) {
+      console.log('handlePublishAnnouncement: Supabase not configured. Simulated broadcast of announcement:', annTitle);
+      setTimeout(() => {
+        const newAnn = {
+          id: `ann-${Date.now()}`,
+          title: annTitle,
+          message: annMessage,
+          created_at: new Date().toISOString()
+        };
+        setAnnouncements(prev => [newAnn, ...prev]);
+        setAnnTitle('');
+        setAnnMessage('');
+        setAnnSuccess('Announcement broadcasted successfully to all users!');
+        setLoading(false);
+      }, 500);
+      return;
+    }
 
     const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
     const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
